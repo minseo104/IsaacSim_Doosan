@@ -1,0 +1,469 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (5, 0, 0)
+                double radius = 5
+            }
+            dictionary Perspective = {
+                double3 position = (1.3096632593531072, 1.248990399994622, 1.9138996281522924)
+                double3 target = (-0.1811878449757529, -0.24186070433423779, 0.4230485594074098)
+            }
+            dictionary Right = {
+                double3 position = (0, -5, 0)
+                double radius = 5
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 5)
+                double radius = 5
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./r3.usd"
+            dictionary locked = {
+            }
+            dictionary muteness = {
+            }
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "World"
+    endTimeCode = 1000000
+    metersPerUnit = 1
+    startTimeCode = 0
+    timeCodesPerSecond = 60
+    upAxis = "Z"
+)
+
+def Xform "World"
+{
+    def Xform "GroundPlane"
+    {
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Mesh "CollisionMesh"
+        {
+            uniform bool doubleSided = 0
+            int[] faceVertexCounts = [4]
+            int[] faceVertexIndices = [0, 1, 2, 3]
+            normal3f[] normals = [(0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1)]
+            point3f[] points = [(-25, -25, 0), (25, -25, 0), (25, 25, 0), (-25, 25, 0)]
+            color3f[] primvars:displayColor = [(0.5, 0.5, 0.5)]
+            texCoord2f[] primvars:st = [(0, 0), (1, 0), (1, 1), (0, 1)] (
+                interpolation = "varying"
+            )
+        }
+
+        def Plane "CollisionPlane" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            uniform token axis = "Z"
+            rel physics:simulationOwner
+            uniform token purpose = "guide"
+        }
+    }
+
+    def Xform "Robot"
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def "e0509" (
+            prepend payload = @../doosan-robot2/dsr_description2/usd/e0509.usd@
+        )
+        {
+            over "e0509"
+            {
+                over "base_link"
+                {
+                    vector3f physics:angularVelocity = (0, 0, 0)
+                    rel physics:simulationOwner
+                    vector3f physics:velocity = (0, 0, 0)
+                    quatd xformOp:orient = (1, 0, 0, 0)
+                    double3 xformOp:translate = (7.275957614183426e-12, 4.656612873077393e-10, -7.450580596923828e-9)
+
+                    over "collisions"
+                    {
+                        rel physics:simulationOwner
+                    }
+
+                    over "joint_1"
+                    {
+                        float drive:angular:physics:damping = 180
+                        float drive:angular:physics:maxForce = 800
+                        float drive:angular:physics:stiffness = 1200
+                        float physics:lowerLimit = -360
+                        float physics:upperLimit = 360
+                        float state:angular:physics:position = -1.7142556e-9
+                        float state:angular:physics:velocity = 0
+                    }
+                }
+
+                over "link_1"
+                {
+                    vector3f physics:angularVelocity = (6.7429887e-15, -5.617569e-16, 2.2720306e-8)
+                    rel physics:simulationOwner
+                    vector3f physics:velocity = (-1.9681673e-11, 4.0027966e-16, 5.8570955e-18)
+                    quatd xformOp:orient = (0.9999999999999978, 3.011136174384669e-8, 5.9299818885341994e-8, -4.210638027361562e-9)
+                    double3 xformOp:translate = (-1.2732925824820995e-10, -1.4901161193847656e-8, 0.20449993014335632)
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            rel physics:simulationOwner
+                        }
+
+                        over "mesh_1"
+                        {
+                            rel physics:simulationOwner
+                        }
+
+                        over "mesh_2"
+                        {
+                            rel physics:simulationOwner
+                        }
+
+                        over "mesh_3"
+                        {
+                            rel physics:simulationOwner
+                        }
+                    }
+
+                    over "joint_2"
+                    {
+                        float drive:angular:physics:damping = 200
+                        float drive:angular:physics:maxForce = 900
+                        float drive:angular:physics:stiffness = 1400
+                        float physics:lowerLimit = -360
+                        float physics:upperLimit = 360
+                        float state:angular:physics:position = 2.0895724e-8
+                        float state:angular:physics:velocity = 0
+                    }
+                }
+
+                over "link_2"
+                {
+                    vector3f physics:angularVelocity = (-4.883268e-13, -1.3546551e-7, 2.2720766e-8)
+                    rel physics:simulationOwner
+                    vector3f physics:velocity = (-5.095204e-10, 1.8707025e-15, 1.480421e-16)
+                    quatd xformOp:orient = (-0.49999818205384344, 0.5000019669523794, 0.4999999403944571, 0.49999991059213483)
+                    double3 xformOp:translate = (7.482981345674489e-9, -1.4901161193847656e-8, 0.20449994504451752)
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            rel physics:simulationOwner
+                        }
+
+                        over "mesh_1"
+                        {
+                            rel physics:simulationOwner
+                        }
+                    }
+
+                    over "joint_3"
+                    {
+                        float drive:angular:physics:damping = 140
+                        float drive:angular:physics:maxForce = 700
+                        float drive:angular:physics:stiffness = 900
+                        float drive:angular:physics:targetPosition = 0
+                        float physics:lowerLimit = -155
+                        float physics:upperLimit = 155
+                        float state:angular:physics:position = 2.9398745e-8
+                        float state:angular:physics:velocity = 0
+                    }
+                }
+
+                over "link_3"
+                {
+                    vector3f physics:angularVelocity = (-1.2080337e-12, -3.1432313e-7, 2.2721464e-8)
+                    rel physics:simulationOwner
+                    vector3f physics:velocity = (-1.0667531e-9, 8.731139e-15, 6.659833e-14)
+                    quatd xformOp:orient = (-0.7071054819784507, 0.7071080803871598, -0.000002684071660041978, -6.85104168951552e-8)
+                    double3 xformOp:translate = (1.0251824278384447e-7, 0.0000014640390872955322, 0.5774999260902405)
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            rel physics:simulationOwner
+                        }
+
+                        over "mesh_1"
+                        {
+                            rel physics:simulationOwner
+                        }
+                    }
+
+                    over "joint_4"
+                    {
+                        float drive:angular:physics:damping = 90
+                        float drive:angular:physics:maxForce = 400
+                        float drive:angular:physics:stiffness = 500
+                        float drive:angular:physics:targetPosition = 0
+                        float physics:lowerLimit = -360
+                        float physics:upperLimit = 360
+                        float state:angular:physics:position = 7.1233266e-8
+                        float state:angular:physics:velocity = 0
+                    }
+                }
+
+                over "link_4"
+                {
+                    vector3f physics:angularVelocity = (-2.7309045e-12, -3.1432324e-7, -3.566324e-7)
+                    rel physics:simulationOwner
+                    vector3f physics:velocity = (-1.6303564e-9, -1.841067e-14, 2.4721e-14)
+                    quatd xformOp:orient = (0.999999999996421, -9.737425779887784e-8, 0.000001951159587629378, -0.0000018279897282193613)
+                    double3 xformOp:translate = (0.0000015545815585937817, 0.000002913177013397217, 0.950499951839447)
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            rel physics:simulationOwner
+                        }
+
+                        over "mesh_1"
+                        {
+                            rel physics:simulationOwner
+                        }
+                    }
+
+                    over "joint_5"
+                    {
+                        float drive:angular:physics:damping = 80
+                        float drive:angular:physics:maxForce = 350
+                        float drive:angular:physics:stiffness = 400
+                        float physics:lowerLimit = -360
+                        float physics:upperLimit = 360
+                        float state:angular:physics:position = -1.0213264e-7
+                        float state:angular:physics:velocity = 0
+                    }
+                }
+
+                over "link_5"
+                {
+                    vector3f physics:angularVelocity = (-9.424945e-13, 1.367987e-7, -3.566341e-7)
+                    rel physics:simulationOwner
+                    vector3f physics:velocity = (-2.5645241e-9, 2.9034026e-14, 1.3864889e-14)
+                    quatd xformOp:orient = (-0.7071054223738545, 0.7071081399915775, -0.0000026712659746401576, -9.42764017963533e-8)
+                    double3 xformOp:translate = (0.0000015548871488135774, 0.00000286102294921875, 0.950499951839447)
+
+                    over "collisions"
+                    {
+                        over "mesh_0"
+                        {
+                            rel physics:simulationOwner
+                        }
+
+                        over "mesh_1"
+                        {
+                            rel physics:simulationOwner
+                        }
+                    }
+
+                    over "joint_6"
+                    {
+                        float drive:angular:physics:damping = 60
+                        float drive:angular:physics:maxForce = 300
+                        float drive:angular:physics:stiffness = 300
+                        float drive:angular:physics:targetPosition = 0
+                        float physics:lowerLimit = -360
+                        float physics:upperLimit = 360
+                        float state:angular:physics:position = -0.0000011083129
+                        float state:angular:physics:velocity = 0
+                    }
+                }
+
+                over "link_6"
+                {
+                    vector3f physics:angularVelocity = (1.524114e-11, 1.3679947e-7, 0.0000035465173)
+                    rel physics:simulationOwner
+                    vector3f physics:velocity = (-2.5858606e-9, 3.3533324e-12, -1.2210134e-13)
+                    quatd xformOp:orient = (0.9999999999963064, -9.612565980912108e-8, 0.000002011833966368617, -0.000001824961892897768)
+                    double3 xformOp:translate = (0.0000022289896151050925, 0.000003573921276256442, 1.122999906539917)
+
+                    over "collisions"
+                    {
+                        rel physics:simulationOwner
+                    }
+                }
+
+                over "base"
+                {
+                    vector3f physics:angularVelocity = (0, 0, 0)
+                    rel physics:simulationOwner
+                    vector3f physics:velocity = (0, 0, 0)
+                    quatd xformOp:orient = (0.9999999999999999, -4.441997394047191e-9, 3.30487347073947e-9, 1.3834416338202045e-8)
+                    double3 xformOp:translate = (-1.0913936421275139e-11, 2.3283064365386963e-10, 0.44999998807907104)
+                }
+
+                over "tool0"
+                {
+                    vector3f physics:angularVelocity = (1.524114e-11, 1.3679947e-7, 0.0000035465173)
+                    rel physics:simulationOwner
+                    vector3f physics:velocity = (-2.5162967e-9, 1.0035806e-14, 6.560438e-15)
+                    quatd xformOp:orient = (0.000001327393997224482, 0.7071081818932706, -0.0000011912885180929225, 0.7071053804748004)
+                    double3 xformOp:translate = (0.0000022247404558584094, 0.0000035739067243412137, 1.122999906539917)
+                }
+            }
+        }
+    }
+
+    def Xform "Gripper"
+    {
+        quatd xformOp:orient = (1, 0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 1.123)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def "rh_p12_rn_c" (
+            prepend payload = @../xyz_1023/xyz/usd/rh_p12_rn_a/rh_p12_rn_c.usd@
+        )
+        {
+            over "world"
+            {
+                vector3f physics:angularVelocity = (1.524114e-11, 1.3679947e-7, 0.0000035465173)
+                rel physics:simulationOwner
+                vector3f physics:velocity = (-2.43966e-9, -1.320774e-13, 1.1712813e-14)
+                quatd xformOp:orient = (0.999999999998248, 1.205333455789806e-7, 7.496235981458372e-7, 0.000001711029539203013)
+                double3 xformOp:translate = (1.8373849997033176e-8, -1.7929451701093058e-7, 2.5749206544745107e-8)
+
+                over "collisions"
+                {
+                    rel physics:simulationOwner
+                }
+            }
+
+            over "rh_p12_rn_l1"
+            {
+                vector3f physics:angularVelocity = (-0.41326085, -0.0000012774282, 0.000004166108)
+                rel physics:simulationOwner
+                vector3f physics:velocity = (-4.4423348e-10, 0.00015469533, 0.00019246156)
+                quatd xformOp:orient = (0.9610546955731791, -0.2763582314917621, 2.47576097006599e-7, 0.0000018515891153627844)
+                double3 xformOp:translate = (1.1771588503961539e-7, -0.00800018385052681, 0.04800000381469727)
+
+                over "collisions"
+                {
+                    rel physics:simulationOwner
+                }
+            }
+
+            over "rh_p12_rn_l2"
+            {
+                vector3f physics:angularVelocity = (-2.6680428e-7, 1.3679907e-7, 0.0000035465173)
+                rel physics:simulationOwner
+                vector3f physics:velocity = (-6.905535e-10, 0.00036327852, 0.0001924957)
+                quatd xformOp:orient = (0.9999999695518086, 0.000246764852078319, 7.500583831192228e-7, 0.0000017108738537240922)
+                double3 xformOp:translate = (2.8454817879719485e-7, -0.03468448668718338, 0.09836795520782471)
+
+                over "collisions"
+                {
+                    rel physics:simulationOwner
+                }
+            }
+
+            over "rh_p12_rn_r1"
+            {
+                vector3f physics:angularVelocity = (0.20292372, 8.3122853e-7, 0.0000032422788)
+                rel physics:simulationOwner
+                vector3f physics:velocity = (-4.0949595e-9, -0.00007599015, 0.000094480354)
+                quatd xformOp:orient = (0.9610213442826867, 0.2764741865520325, 0.0000011934798975839309, 0.0000014371087258758445)
+                double3 xformOp:translate = (6.296202315070332e-8, 0.007999807596206665, 0.04800000381469727)
+
+                over "collisions"
+                {
+                    rel physics:simulationOwner
+                }
+            }
+
+            over "rh_p12_rn_r2"
+            {
+                vector3f physics:angularVelocity = (9.3381495e-8, 1.3679983e-7, 0.0000035465173)
+                rel physics:simulationOwner
+                vector3f physics:velocity = (-4.020422e-9, -0.00017841073, 0.00009446454)
+                quatd xformOp:orient = (0.9999999975160546, -0.00007045850611109366, 7.495156129130984e-7, 0.0000017111113924122755)
+                double3 xformOp:translate = (4.721188062717374e-8, 0.03467194736003876, 0.09837439250946045)
+
+                over "collisions"
+                {
+                    rel physics:simulationOwner
+                }
+            }
+
+            over "joints"
+            {
+                over "rh_l1"
+                {
+                    float state:angular:physics:position = 32.085976
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "rh_r1"
+                {
+                    float drive:angular:physics:targetPosition = 32.100002
+                    float physics:lowerLimit = -0.05729578
+                    float physics:upperLimit = 63.082645
+                    float state:angular:physics:position = 32.099777
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "rh_l2"
+                {
+                    float state:angular:physics:position = 32.114227
+                    float state:angular:physics:velocity = 0
+                }
+
+                over "rh_r2"
+                {
+                    float state:angular:physics:position = 32.10786
+                    float state:angular:physics:velocity = 0
+                }
+            }
+
+            over "root_joint"
+            {
+                rel physics:body0 = </World/Robot/e0509/e0509/tool0>
+                point3f physics:localPos0 = (1.1920227e-7, 0.000003753209, -0.0000022063537)
+                quatf physics:localRot0 = (-0.0000026225234, 0.70710766, -0.000002315962, 0.70710593)
+            }
+        }
+    }
+}
+
+def Xform "Environment"
+{
+    quatd xformOp:orient = (1, 0, 0, 0)
+    double3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+    def DistantLight "defaultLight" (
+        prepend apiSchemas = ["ShapingAPI"]
+    )
+    {
+        float inputs:angle = 1
+        float inputs:intensity = 3000
+        float inputs:shaping:cone:angle = 180
+        float inputs:shaping:cone:softness
+        float inputs:shaping:focus
+        color3f inputs:shaping:focusTint
+        asset inputs:shaping:ies:file
+        quatd xformOp:orient = (0.6532814824381883, 0.2705980500730985, 0.27059805007309845, 0.6532814824381882)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+}
+
